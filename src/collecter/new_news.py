@@ -1,12 +1,16 @@
-import requests
+import feedparser
 
 url = "https://www.boannews.com/media/news_rss.xml"
+feed = feedparser.parse(url) # url안의 xml파일을 
 
-def get_news():
-    response = requests.get(url)
-    response.encoding = "euc-kr"
-    news_list = response.text
-    return news_list
+def parse_rss():
+    feed_list = []
+    feed_dict = {}
+    for entry in feed.entries:
+        title = entry.title
+        link = entry.link
+        feed_dict = {"title": title, "link": link}
+        feed_list.append(feed_dict)
+    return feed_list
 
-rss = get_news()
-
+print(parse_rss()[0])
