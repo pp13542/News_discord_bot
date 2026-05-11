@@ -4,4 +4,4 @@ feedparser
 requests
 loguru
 aiosqlite
-slqite3
+sqlite3
