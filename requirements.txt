@@ -1,6 +1,0 @@
-discord.py
-python-dotenv
-feedparser
-requests
-loguru
-aiosqlite
