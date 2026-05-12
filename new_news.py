@@ -3,6 +3,7 @@ import sqlite3
 import discord
 from dotenv import load_dotenv
 import os
+from discord.ext import tasks
 
 # env 파일 로드
 load_dotenv()
@@ -89,9 +90,13 @@ async def send_message(): #디스코드 메세지 전송
         else:
             continue
 
+@tasks.loop(minutes=30)
+async def news_loop():
+    await send_message()
           
 @client.event
 async def on_ready():
-    await send_message()
-
+    print("봇 실행됨")
+    news_loop.start()
+    
 client.run(Token)
