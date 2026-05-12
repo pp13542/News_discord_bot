@@ -8,7 +8,7 @@ from discord.ext import tasks
 # env 파일 로드
 load_dotenv()
 # RSS URL
-url = "https://www.boannews.com/media/news_rss.xml"
+url = ""
 # RSS 파싱
 feed = feedparser.parse(url)
 # DB 연결
@@ -98,5 +98,5 @@ async def news_loop():
 async def on_ready():
     print("봇 실행됨")
     news_loop.start()
-    
+
 client.run(Token)
