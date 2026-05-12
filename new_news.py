@@ -4,10 +4,13 @@ import discord
 from dotenv import load_dotenv
 import os
 
+# env 파일 로드
 load_dotenv()
-
+# RSS URL
 url = "https://www.boannews.com/media/news_rss.xml"
+# RSS 파싱
 feed = feedparser.parse(url)
+# DB 연결
 news_db = sqlite3.connect("news.db")
 cur = news_db.cursor()
 cur.execute("""
@@ -17,6 +20,7 @@ cur.execute("""
             link TEXT UNIQUE
         )
     """)
+# 디스코드 정보
 Token = os.getenv("Token")
 news_channel_id = int(os.getenv("news_channel_id"))
 client = discord.Client(intents=discord.Intents.default())
@@ -58,8 +62,8 @@ async def send_message(): #디스코드 메세지 전송
             channel = client.get_channel(news_channel_id)
 
             embed = discord.Embed(
-                title="새로운 보안 뉴스",
-                color=discord.Color.red()
+                title="🛡 새로운 보안 뉴스",
+                color=discord.Color.green()
             )
 
             embed.add_field(
@@ -74,13 +78,18 @@ async def send_message(): #디스코드 메세지 전송
                 inline=False
             )
 
-            embed.set_footer(text="보안 뉴스 봇")
-
             await channel.send(embed=embed)
+
+            cur.execute( #DB에 뉴스 저장
+                    "INSERT INTO news (title, link) VALUES (?, ?)",
+                    (title, link)
+                )
+            news_db.commit()
 
         else:
             continue
-            
+
+          
 @client.event
 async def on_ready():
     await send_message()
