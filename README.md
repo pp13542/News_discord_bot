@@ -1,10 +1,35 @@
-# News_discord_bot
+# Discord News Bot
 
-pip install -r requirements.txt 로 작업에 필요한 라이브러리 인스톨
+RSS 기반으로 보안 뉴스를 자동 수집하여 Discord 채널로 전송하는 봇입니다.
 
-변수 이름은 snake_case로  (단어 사이를 _로 연결하는것을 의미)
+---
 
-디스코봇 토큰은 깃허브에 공유 시 탈취 위험이 있으므로 .env파일에 변수로 저장해두고 꺼내서 사용 (예: DISCORD_BOT_TOKEN=your_token_here)
+## Features
 
-python -m venv venv -> 가상환경 다운로드(기존 설정과 충돌이 나지 않기 위해)
-.\venv\Scripts\Activate.ps1 -> 가상환경 실행
+- RSS 뉴스 자동 수집
+- SQLite 기반 중복 뉴스 필터링
+- 30분 주기 자동 실행
+- Discord Embed 메시지 전송
+
+---
+
+## Architecture
+
+RSS Feed → 데이터 파싱 → 중복 검사 (SQLite) → 신규 뉴스 필터링 → Discord 전송 → DB 저장
+
+---
+
+## Tech Stack
+
+- Python
+- discord.py
+- feedparser
+- SQLite3
+- python-dotenv
+
+---
+
+## Installation
+
+```bash
+pip install -r requirements.txt
